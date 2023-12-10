@@ -12,25 +12,25 @@
 
 class ButtonDebounce{
   public:
-    ButtonDebounce(int pin, unsigned long delay = 250);
-    Ticker _ticker;
+    ButtonDebounce(int pin, unsigned long delay = 100 /* mSeconds stable */);
+    ~ButtonDebounce();
+
     int state();
-    typedef std::function<void(int)> btn_callback_t;
-    void setCallback(btn_callback_t callback);
     void update();
+
+    typedef std::function<void(const int)> ButtonCallback;
+    void setCallback(ButtonCallback,int mode = CHANGE);
+
+    bool operator ==(int s) { return (s ? HIGH : LOW) == _lastStateBtn; };
+    bool operator !=(int s) { return (s ? HIGH : LOW) != _lastStateBtn; };
+ 
   private:
     int _pin;
+    int _mode; // Interrupt mode (RISING, FALLING, CHANGE, ONLOW, ONHIGH -- see Arduino.h)
     unsigned long _delay;
-    unsigned long _lastDebounceTime;
     unsigned long _lastChangeTime;
-    int _lastStateBtn;
+    int _lastStateBtn, _prevStateBtn;
     ButtonCallback _callBack = NULL;
-    bool isTimeToUpdate();
-  public:
-    ButtonDebounce(int pin, unsigned long delay);
-    void update();
-    int state();
-    void setCallback(ButtonCallback);
+    Ticker * _ticker;
 };
-
 #endif
