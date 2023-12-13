@@ -7,7 +7,6 @@ static void _update(uint32_t arg) {
 }
 
 ButtonDebounce::ButtonDebounce(int pin, unsigned long delay){
-  pinMode(pin, INPUT_PULLUP);
   _pin = pin;
   _delay = delay;
   _lastChangeTime = 0;
