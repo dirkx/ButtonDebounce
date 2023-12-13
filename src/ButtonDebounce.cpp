@@ -10,7 +10,7 @@ ButtonDebounce::ButtonDebounce(int pin, unsigned long delay){
   _pin = pin;
   _delay = delay;
   _lastChangeTime = 0;
-  _prevStateBtn = _lastStateBtn = digitalRead(_pin) ? HIGH : LOW;
+  _prevStateBtn = _lastStateBtn = rawState();
   _ticker = new Ticker();
   _ticker->attach_ms(
     delay/SAMPLES_PER_DELAY,_update,(uint32_t )this
@@ -21,8 +21,21 @@ ButtonDebounce::~ButtonDebounce() {
 	delete _ticker;
 };
 
+void ButtonDebounce::setAnalogThreshold(unsigned short val) {
+	_analogThreshold = val;
+};
+
+int ButtonDebounce::rawState() {
+  int btnState;
+  if (_analogThreshold) 
+	btnState = analogRead(_pin) > _analogThreshold ? HIGH : LOW;
+  else
+	btnState = digitalRead(_pin) ? HIGH : LOW;
+  return btnState;
+}
+
 void ButtonDebounce::update(){
-  int btnState = digitalRead(_pin) ? HIGH : LOW;
+  int btnState = rawState();
 
   if(btnState != _prevStateBtn) {
         _lastChangeTime = millis();

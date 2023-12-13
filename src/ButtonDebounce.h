@@ -14,8 +14,10 @@ class ButtonDebounce{
   public:
     ButtonDebounce(int pin, unsigned long delay = 100 /* mSeconds stable */);
     ~ButtonDebounce();
+    void setAnalogThreshold(unsigned short val); // Set to 0 to go back to digital again.
 
     int state();
+    int rawState();
     void update();
 
     typedef std::function<void(const int)> ButtonCallback;
@@ -27,6 +29,7 @@ class ButtonDebounce{
   private:
     int _pin;
     int _mode; // Interrupt mode (RISING, FALLING, CHANGE, ONLOW, ONHIGH -- see Arduino.h)
+    unsigned short _analogThreshold = 0;
     unsigned long _delay;
     unsigned long _lastChangeTime;
     int _lastStateBtn, _prevStateBtn;
