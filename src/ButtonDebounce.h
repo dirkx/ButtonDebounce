@@ -20,13 +20,10 @@ class ButtonDebounce{
 
     typedef std::function<void(const int)> ButtonCallback;
     void setCallback(ButtonCallback,int mode = CHANGE);
-<<<<<<< Updated upstream
 
     bool operator ==(int s) { return (s ? HIGH : LOW) == _lastStateBtn; };
     bool operator !=(int s) { return (s ? HIGH : LOW) != _lastStateBtn; };
  
-=======
->>>>>>> Stashed changes
   private:
     int _pin;
     int _mode; // Interrupt mode (RISING, FALLING, CHANGE, ONLOW, ONHIGH -- see Arduino.h)
