@@ -10,6 +10,7 @@ ButtonDebounce::ButtonDebounce(int pin, unsigned long delay){
   _pin = pin;
   _delay = delay;
   _lastChangeTime = 0;
+   _analogThreshold = 0;
   _prevStateBtn = _lastStateBtn = rawState();
   _ticker = new Ticker();
   _ticker->attach_ms(
