@@ -10,7 +10,7 @@
 #include "Ticker.h"
 #include <functional>
 
-class ButtonDebounce{
+class ButtonDebounce {
   public:
     ButtonDebounce(int pin, unsigned long delay = 100 /* mSeconds stable */);
     ~ButtonDebounce();
@@ -20,8 +20,15 @@ class ButtonDebounce{
     int rawState();
     void update();
 
+    typedef std::function<bool(const int)> digitalReadFunction;
+    void setDigitalReadFunction(digitalReadFunction func) { _digitalRead = func; };
+
+    typedef std::function<float(const int)> analogReadFunction;
+    void setAnalogReadFunction(analogReadFunction func) { _analogRead = func; };
+
     typedef std::function<void(const int)> ButtonCallback;
     void setCallback(ButtonCallback,int mode = CHANGE);
+
 
     bool operator ==(int s) { return (s ? HIGH : LOW) == _lastStateBtn; };
     bool operator !=(int s) { return (s ? HIGH : LOW) != _lastStateBtn; };
@@ -34,6 +41,8 @@ class ButtonDebounce{
     unsigned long _lastChangeTime;
     int _lastStateBtn, _prevStateBtn;
     ButtonCallback _callBack = NULL;
+    digitalReadFunction _digitalRead = &digitalRead;
+    analogReadFunction _analogRead = &analogRead;
     Ticker * _ticker;
 };
 #endif

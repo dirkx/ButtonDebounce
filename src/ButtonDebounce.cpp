@@ -29,9 +29,9 @@ void ButtonDebounce::setAnalogThreshold(unsigned short val) {
 int ButtonDebounce::rawState() {
   int btnState;
   if (_analogThreshold) 
-	btnState = analogRead(_pin) > _analogThreshold ? HIGH : LOW;
+	btnState = this->_analogRead(_pin) > _analogThreshold ? HIGH : LOW;
   else
-	btnState = digitalRead(_pin) ? HIGH : LOW;
+	btnState = this->_digitalRead(_pin) ? HIGH : LOW;
   return btnState;
 }
 
