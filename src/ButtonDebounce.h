@@ -18,7 +18,8 @@ class ButtonDebounce {
 
     int state();
     int rawState();
-    void update();
+    [[deprecated]] void update()}; // No longer required; is called by a background Ticker.
+	{};
 
     typedef std::function<bool(const int)> digitalReadFunction;
     void setDigitalReadFunction(digitalReadFunction func) { _digitalRead = func; };
@@ -28,7 +29,6 @@ class ButtonDebounce {
 
     typedef std::function<void(const int)> ButtonCallback;
     void setCallback(ButtonCallback,int mode = CHANGE);
-
 
     bool operator ==(int s) { return (s ? HIGH : LOW) == _lastStateBtn; };
     bool operator !=(int s) { return (s ? HIGH : LOW) != _lastStateBtn; };
@@ -44,5 +44,6 @@ class ButtonDebounce {
     digitalReadFunction _digitalRead = &digitalRead;
     analogReadFunction _analogRead = &analogRead;
     Ticker * _ticker;
+    void _ticker_update();
 };
 #endif

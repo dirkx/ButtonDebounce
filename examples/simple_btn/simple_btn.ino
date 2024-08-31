@@ -9,7 +9,11 @@ void setup() {
 }
 
 void loop() {
-  if(button.state() == HIGH){
-    Serial.println("Clicked");
+  static bool last = button.state();
+
+  if(button.state() != last) {
+    last = button.state();
+    Serial.println(last ? "HIGH" : "LOW");
   }
+  delay(500);
 }

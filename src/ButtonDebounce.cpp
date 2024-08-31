@@ -3,7 +3,7 @@
 
 static void _update(uint32_t arg) {
 	ButtonDebounce * c = (ButtonDebounce*)arg;
-	c->update();
+	c->_ticker_update();
 }
 
 ButtonDebounce::ButtonDebounce(int pin, unsigned long delay){
@@ -35,7 +35,7 @@ int ButtonDebounce::rawState() {
   return btnState;
 }
 
-void ButtonDebounce::update(){
+void ButtonDebounce::_ticker_update(){
   int btnState = rawState();
 
   if(btnState != _prevStateBtn) {

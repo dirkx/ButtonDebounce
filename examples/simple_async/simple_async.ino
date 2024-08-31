@@ -13,5 +13,6 @@ void setup() {
 }
 
 void loop() {
-  button.update();
+   Serial.println("Tock");
+   delay(5000);
 }

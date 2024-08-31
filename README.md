@@ -36,22 +36,16 @@ button.setCallback([](const int state) {
 
 Important: buttons don´t share resources. The following methods are avaliable.
 
-* `update()` called in `loop method`, used to verify the debounce timer and the button state changes.
 * `state()` return the last button state.
 * `setCallback(function)` set the callback function that will executed on button state changes.
 
 Note that the constructor also sets the INPUT_PULLUP pinmode() on the pin.
 ## LOOP
 
-Due the time buffer used in each button, please call the `update()` method in `loop`, so it can be update and reflect all state changes.
-
-    Be advised: Do not declare any delay() before the update functions, as it may interfere with the bounce time buffer.
-
+The loop can be empty; the updating is done behind the scenes. 
 
 ```
 void loop() {
-  buttonUp.update();
-  buttonDown.update();
 }
 ```
 
