@@ -16,10 +16,10 @@ class ButtonDebounce {
     ~ButtonDebounce();
     void setAnalogThreshold(unsigned short val); // Set to 0 to go back to digital again.
 
-    int state();
-    int rawState();
-    [[deprecated]] void update()}; // No longer required; is called by a background Ticker.
-	{};
+    bool state();
+    bool rawState();
+    [[deprecated]] void update() // No longer required; is called by a background Ticker.
+        {};
 
     typedef std::function<bool(const int)> digitalReadFunction;
     void setDigitalReadFunction(digitalReadFunction func) { _digitalRead = func; };
@@ -33,17 +33,17 @@ class ButtonDebounce {
     bool operator ==(int s) { return (s ? HIGH : LOW) == _lastStateBtn; };
     bool operator !=(int s) { return (s ? HIGH : LOW) != _lastStateBtn; };
  
+    void _ticker_update();
   private:
     int _pin;
     int _mode; // Interrupt mode (RISING, FALLING, CHANGE, ONLOW, ONHIGH -- see Arduino.h)
     unsigned short _analogThreshold = 0;
     unsigned long _delay;
     unsigned long _lastChangeTime;
-    int _lastStateBtn, _prevStateBtn;
+    bool _lastStateBtn, _prevStateBtn;
     ButtonCallback _callBack = NULL;
     digitalReadFunction _digitalRead = &digitalRead;
     analogReadFunction _analogRead = &analogRead;
     Ticker * _ticker;
-    void _ticker_update();
 };
 #endif
